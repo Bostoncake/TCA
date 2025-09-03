@@ -126,6 +126,8 @@ python runner.py
 
 ### Command Line Arguments
 
+If you want to ensure similar FLOPs cost for EViT, ToME, and Ours. Please set Ours = 0.035 when EViT and ToME = 0.1 in`--token_pruning`.
+
 | Argument | Description | Default |
 |----------|-------------|---------|
 | `--config` | Path to configuration directory | `configs/` |
