@@ -1,0 +1,7 @@
+- [x] PEFT比较：TTA+VPT，TTA+LoRA，不同参数量
+- [ ] Maple+我们的方案，APEX+我们的方案
+- [x] 原模型无token aggregation+NAVIA
+- [ ] t-SNE实验
+- [ ] 时间、显存、参数开销汇报
+- [x] 添加巨量高斯噪声实验，比较NAVIA和几个SoTA（FOA，EATA，Tent等）
+- [x] NAVIA在gradient steps更多时的效果

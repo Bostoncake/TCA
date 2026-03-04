@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../../mnt/data1/xiongyizhe/dataset/imnet-ood"
+		},
+		{
+			"path": "../../../../mnt/data1/xiongyizhe/dataset/clip"
+		},
+		{
+			"path": "../multimodal-prompt-learning"
+		},
+		{
+			"path": "../APEX"
+		},
+		{
+			"path": "../Dassl.pytorch"
+		},
+		{
+			"path": "../TCA"
+		}
+	],
+	"settings": {
+		"python.languageServer": "Pylance"
+	}
+}
