@@ -41,16 +41,16 @@ fi
 
 algorithm="foa_bp"
 currenttime=`date +"%Y-%m-%d_%H"`
-backbone="large"
+backbone="large"        # large use tca_r=4,8 GFLOPs:52.76,44.93
 ckpt_dir="/mnt/data1/xiongyizhe/models/vit_large_patch16_224.augreg_in21k_ft_in1k.bin"
 batch_size=32
 
-for seed in 2021 2022 2023; do
+for seed in 2021; do
 
-    for tca_r in 2 4; do
+    for tca_r in 4 8; do
         tag=$currenttime"_large_TCA_r_"$tca_r"_seed_"$seed
 
-        mkdir -p /home/xiongyizhe/CVPR2026/MGTTA/outputs/$algorithm"_"$tag/C/
+        mkdir -p /home/xiongyizhe/CVPR2026/TCA/MGTTA/outputs/$algorithm"_"$tag/C/
 
         for corruption in ${corruptions[@]}; do
             echo $corruption
@@ -68,9 +68,41 @@ for seed in 2021 2022 2023; do
                 --output ./outputs \
                 --algorithm $algorithm \
                 --apply_tca --tca_r $tca_r \
-                --tag $tag --seed $seed > /home/xiongyizhe/CVPR2026/MGTTA/outputs/$algorithm"_"$tag/C/$corruption-running-log.txt
+                --tag $tag --seed $seed > /home/xiongyizhe/CVPR2026/TCA/MGTTA/outputs/$algorithm"_"$tag/C/$corruption-running-log.txt
         done
     done
 
 done
-wait
+
+backbone="base"        # base use tca_r=6,12 GFLOPs:14.81,12.68
+ckpt_dir="/mnt/data1/xiongyizhe/models/vit_base_patch16_224.augreg2_in21k_ft_in1k.bin"
+batch_size=64
+
+for seed in 2021; do
+
+    for tca_r in 6 12; do
+        tag=$currenttime"_base_TCA_r_"$tca_r"_seed_"$seed
+
+        mkdir -p /home/xiongyizhe/CVPR2026/TCA/MGTTA/outputs/$algorithm"_"$tag/C/
+
+        for corruption in ${corruptions[@]}; do
+            echo $corruption
+            python3 main.py \
+                --batch_size $batch_size \
+                --workers 8 \
+                --backbone $backbone \
+                --ckpt_dir $ckpt_dir \
+                --data /mnt/data1/xiongyizhe/dataset/imagenet \
+                --data_v2 /mnt/data1/xiongyizhe/dataset/imnet-ood/imagenet-v2 \
+                --data_sketch /mnt/data1/xiongyizhe/dataset/imnet-ood/sketch \
+                --data_corruption /mnt/data1/xiongyizhe/dataset/imnet-ood/imagenet-c \
+                --data_rendition /mnt/data1/xiongyizhe/dataset/imnet-ood/imagenet-r \
+                --corruption $corruption \
+                --output ./outputs \
+                --algorithm $algorithm \
+                --apply_tca --tca_r $tca_r \
+                --tag $tag --seed $seed > /home/xiongyizhe/CVPR2026/TCA/MGTTA/outputs/$algorithm"_"$tag/C/$corruption-running-log.txt
+        done
+    done
+
+done
